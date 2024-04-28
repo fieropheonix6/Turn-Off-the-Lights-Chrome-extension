@@ -928,7 +928,7 @@ input[type=checkbox]:checked ~ div #expandprofileaicon,input[type=checkbox]:chec
 header{background:var(--totl-primary-background);color:var(--totl-primary-font-color);-webkit-user-select:none;-moz-user-select:none;user-select:none;width:100%;box-shadow:0 2px 5px rgba(0,0,0,.26);display:block;flex-direction:row;align-items:center;z-index:399;position:fixed}
 header .messagehead{align-items:center;display:flex;width:100%;position:relative;margin:0;padding:0}
 header .masterhead{min-height:56px;align-items:center;display:flex;position:relative;margin:0;padding:0 16px;margin-left:env(safe-area-inset-left)}
-header .icon{position:relative;display:inline-block;margin:0;top:2px;width:16px;height:16px}
+header .icon{position:relative;display:inline-flex;margin:0;top:2px;width:16px;height:16px}
 header .title{color:var(--totl-primary-font-color);-webkit-user-select:none;-moz-user-select:none;user-select:none;margin-left:54px;font-size:18px;position:absolute;top:18px;left:0;cursor:pointer}
 header .rightmenu{position:absolute;width:24px;height:24px;top:6px;right:calc(20px + env(safe-area-inset-right));padding:10px;border-radius:50%}
 header .rightmenu svg{fill:var(--totl-svg-fill-color)}

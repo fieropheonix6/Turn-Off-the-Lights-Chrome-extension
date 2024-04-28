@@ -218,18 +218,19 @@ function restcontent(path, name, sendertab){
 		});
 }
 
-chrome.tabs.onActivated.addListener(async(activeInfo) => {
-	chrome.tabs.get(activeInfo.tabId).then((thattab) => {
-		chrome.storage.sync.get(["icon"], function(items){
-			if(items["icon"] == undefined){
-				if(exbrowser == "safari"){
-					items["icon"] = "/icons/iconstick38safari.png";
-				}else{
-					items["icon"] = "/icons/iconstick38.png";
-				}
-			}
-			chrome.action.setIcon({tabId : thattab.tabId, path : {"19": items["icon"], "38": items["icon"]}});
-		});
+chrome.storage.sync.get(["icon"], function(items){
+	if(items["icon"] == undefined){
+		if(exbrowser == "safari"){
+			items["icon"] = "/icons/iconstick38safari.png";
+		}else{
+			items["icon"] = "/icons/iconstick38.png";
+		}
+	}
+	chrome.action.setIcon({
+		path : {
+			"19": items["icon"],
+			"38": items["icon"]
+		}
 	});
 });
 
