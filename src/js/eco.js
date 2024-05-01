@@ -193,7 +193,7 @@ document.addEventListener("visibilitychange", function(){
 	if(in_dom == true){
 		if(document.visibilityState === "hidden"){
 			endlayer();
-		} else if(document.visibilityState === "visible"){
+		}else if(document.visibilityState === "visible"){
 			refreshIntervalId = null;
 			totalSeconds = 0;
 			currentseconds = null;
