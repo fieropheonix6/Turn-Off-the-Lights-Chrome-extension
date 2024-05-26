@@ -3,7 +3,7 @@
 
 Turn Off the Lights
 The entire page will be fading to dark, so you can watch the video as if you were in the cinema.
-Copyright (C) 2023 Stefan vd
+Copyright (C) 2024 Stefan vd
 www.stefanvd.net
 www.turnoffthelights.com
 
@@ -34,52 +34,116 @@ var totlCinema;
 	playerStateChange: function(stateId){
 		var message = document.getElementById("stefanvdcinemamessage"),
 			stateIO = "playerStateChange:".concat(stateId);
-		// console.log("Debug " + message.textContent + " " +stateIO);
+		// console.log("Debug " + message.textContent + " " + stateIO);
 		if(message && message.textContent !== stateIO){
 			message.textContent = stateIO;
 			message.dispatchEvent(totlCinema.messageEvent);
 		}
 	},
 	initialize: function(){
-		totlCinema.initvideoinject();
+		this.initvideoinject();
 		var MutationObserver = window.MutationObserver || window.WebKitMutationObserver || window.MozMutationObserver;
 		if(MutationObserver){
-			var videolist = document.querySelector("body"), observer = new MutationObserver(function(mutations){
-				mutations.forEach(function(mutation){
-					if((mutation.target.tagName == "VIDEO" && mutation.attributeName === "src") || mutation.addedNodes == "VIDEO" || mutation.removedNodes == "VIDEO"){
-						totlCinema.initvideoinject();
-					}
+			var videolist = document.querySelector("body"),
+				observer = new MutationObserver(function(mutations){
+					mutations.forEach(function(mutation){
+						if(
+							mutation.target.tagName === "VIDEO" ||
+                            Array.from(mutation.addedNodes).some((node) => node.tagName === "VIDEO") ||
+                            Array.from(mutation.removedNodes).some((node) => node.tagName === "VIDEO")
+						){
+							totlCinema.initvideoinject();
+						}
+
+						// Check for attribute changes in video elements
+						if(mutation.type === "attributes" && mutation.attributeName === "src"){
+							var video = mutation.target;
+							if(video.tagName === "VIDEO" && !video.src){
+								totlCinema.handleVideoRemoval(video);
+							}
+						}
+					});
 				});
-			});
 			observer.observe(videolist, {
-				subtree: true, // observe the subtree rooted at ...videolist...
+				subtree: true, // observe the subtree rooted at videolist
 				childList: true, // include childNode insertion/removals
-				characterData: false, // include textContent changes
 				attributes: true // include changes to attributes within the subtree
 			});
 		}else{
-			// setup DOM event listeners
+			// Fallback for older browsers
 			document.addEventListener("DOMNodeRemoved", totlCinema.initvideoinject, false);
 			document.addEventListener("DOMNodeInserted", totlCinema.initvideoinject, false);
 		}
 	},
 	initvideoinject: function(){
-		var youtubeplayer = document.getElementById("movie_player") || null, htmlplayer = document.getElementsByTagName("video") || false;
-		if(youtubeplayer !== null){ // YouTube video element
-			var interval = window.setInterval(function(){ if(youtubeplayer.pause || youtubeplayer.pauseVideo){ window.clearInterval(interval); if(youtubeplayer.pauseVideo){ youtubeplayer.addEventListener("onStateChange", "totlCinema.playerStateChange"); } } }, 10);
-		}
-		if(htmlplayer && htmlplayer.length > 0){ // HTML5 video elements
-			var setPlayerEvents = function(players){
-				var j, l = players.length;
-				for(j = 0; j < l; j++){
-					(function(o, p){
-						var ev = {pause: function(){ if(!p.ended){ o.players.active -= 1; }if(o.players.active < 1){ o.playerStateChange(2); } }, play: function(){ o.players.active += 1; o.playerStateChange(1); }, ended: function(){ o.players.active -= 1; if(o.players.active < 1){ o.playerStateChange(0); } }};
-						p.removeEventListener("pause", ev.pause); p.removeEventListener("play", ev.play); p.removeEventListener("ended", ev.ended); p.addEventListener("pause", ev.pause); p.addEventListener("play", ev.play); p.addEventListener("ended", ev.ended);
-						o.players.objs.push(p);
-					}(this.totlCinema, htmlplayer[j]));
+		var htmlplayers = document.getElementsByTagName("video");
+		var existingPlayers = Array.from(htmlplayers);
+
+		// Remove event listeners and clean up removed videos
+		totlCinema.players.objs = totlCinema.players.objs.filter(function(video){
+			if(!existingPlayers.includes(video)){
+				video.removeEventListener("pause", video._events.pause);
+				video.removeEventListener("play", video._events.play);
+				video.removeEventListener("ended", video._events.ended);
+				totlCinema.players.active -= video._events.isActive ? 1 : 0;
+				console.log("Video removed", video);
+				return false;
+			}
+			return true;
+		});
+
+		// Add event listeners to new videos
+		for(let i = 0; i < htmlplayers.length; i++){
+			let video = htmlplayers[i];
+			if(!totlCinema.players.objs.includes(video)){
+				let ev = {
+					isActive: false,
+					pause: function(){
+						if(!video.ended){
+							totlCinema.players.active -= 1;
+							ev.isActive = false;
+						}
+						if(totlCinema.players.active < 1){
+							totlCinema.players.active = 0; // Ensure active count doesn't go negative
+							totlCinema.playerStateChange(2);
+						}
+					},
+					play: function(){
+						if(!ev.isActive){
+							totlCinema.players.active += 1;
+							ev.isActive = true;
+						}
+						totlCinema.playerStateChange(1);
+					},
+					ended: function(){
+						totlCinema.players.active -= 1;
+						ev.isActive = false;
+						if(totlCinema.players.active < 1){
+							totlCinema.players.active = 0; // Ensure active count doesn't go negative
+							totlCinema.playerStateChange(0);
+						}
+					}
+				};
+				video._events = ev; // Store event handlers to the video element
+				video.addEventListener("pause", ev.pause);
+				video.addEventListener("play", ev.play);
+				video.addEventListener("ended", ev.ended);
+				totlCinema.players.objs.push(video);
+
+				// Trigger the play event if the video is already playing (autoplay case)
+				if(!video.paused && !video.ended){
+					ev.play();
 				}
-			};
-			setPlayerEvents(htmlplayer);
+			}
+		}
+	},
+	handleVideoRemoval: function(video){
+		if(video._events && video._events.isActive){
+			totlCinema.players.active -= 1;
+			if(totlCinema.players.active < 1){
+				totlCinema.players.active = 0; // Ensure active count doesn't go negative
+				totlCinema.playerStateChange(2);
+			}
 		}
 	}
 }).initialize();

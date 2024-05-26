@@ -3,7 +3,7 @@
 
 Turn Off the Lights
 The entire page will be fading to dark, so you can watch the video as if you were in the cinema.
-Copyright (C) 2023 Stefan vd
+Copyright (C) 2024 Stefan vd
 www.stefanvd.net
 www.turnoffthelights.com
 
@@ -92,9 +92,9 @@ function openaurorapage(){
 
 document.addEventListener("DOMContentLoaded", function(){
 	// disable context menu
-	// document.addEventListener("contextmenu", function(e){
-	// 	e.preventDefault();
-	// }, false);
+	document.addEventListener("contextmenu", function(e){
+		e.preventDefault();
+	}, false);
 
 	chrome.storage.sync.get(["lightcolor", "darkmode", "interval", "nighttheme", "lampandnightmode", "ambilight", "ambilightfixcolor", "ambilight4color", "ambilightvarcolor", "atmosvivid", "nightmodebck", "nightmodetxt", "nightmodehyperlink", "multiopacall", "multiopacsel", "multiopacityDomains", "firstDate", "optionskipremember", "firstsawrate", "pipvisualtype", "nightonly", "nightDomains", "nightmodebydomain", "firstsawscroll", "nightenabletheme", "nightmodeimage", "nmimagedark", "nmimagegray"], function(items){
 		lightcolor = items["lightcolor"]; if(lightcolor == null)lightcolor = "#000000"; // default color black
@@ -612,15 +612,15 @@ document.addEventListener("DOMContentLoaded", function(){
 		});
 	});
 	$("btnpipvisual").addEventListener("click", function(){
-		chrome.tabs.query({currentWindow: true, active: true}, function (tabs){
+		chrome.tabs.query({currentWindow: true, active: true}, function(tabs){
 			var activeTab = tabs[0];
 			chrome.tabs.sendMessage(activeTab.id, {action: "gopipvisual"})
-			.then(() => {
-				chrome.scripting.executeScript({
-					target: {tabId: activeTab.id},
-					func: codepipvisual
+				.then(() => {
+					chrome.scripting.executeScript({
+						target: {tabId: activeTab.id},
+						func: codepipvisual
+					});
 				});
-			})
 		});
 	});
 

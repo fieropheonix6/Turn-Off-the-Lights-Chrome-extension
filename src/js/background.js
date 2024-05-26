@@ -3,7 +3,7 @@
 
 Turn Off the Lights
 The entire page will be fading to dark, so you can watch the video as if you were in the cinema.
-Copyright (C) 2023 Stefan vd
+Copyright (C) 2024 Stefan vd
 www.stefanvd.net
 www.turnoffthelights.com
 
@@ -261,48 +261,56 @@ async function getCurrentTab(){
 	return tabs[0];
 }
 
+async function getPopupOpenLength(){
+	var total = (await chrome.runtime.getContexts({contextTypes: ["POPUP"]})).length;
+	return total;
+}
+
 // Set click to zero at beginning
 let clickbutton = 0;
 // Declare a timer variable
 let timer;
-chrome.action.onClicked.addListener(function(tab){
+chrome.action.onClicked.addListener(async(tab) => {
 	if(tab.url.match(/^http/i) || tab.url.match(/^file/i)){
 		if((new URL(tab.url)).origin == browserstore || tab.url == browsernewtab){
 			chrome.action.setPopup({tabId: tab.id, popup:"popup.html"});
 		}else{
 			clickbutton += 1;
-			if(clickbutton == 2){
-				// console.log("Doubleclick");
-				clearTimeout(timer);
-				chrome.action.setPopup({tabId: tab.id, popup:"palette.html"});
-				chrome.action.openPopup();
-			}
-
 			timer = setTimeout(function(){
-				// console.log("Singelclick");
-				if(clickbutton == 1){
-					chrome.storage.sync.get(["alllightsoff", "mousespotlights"], function(chromeset){
-						if((chromeset["mousespotlights"] != true)){ // regular lamp
-							if((chromeset["alllightsoff"] != true)){
-								chrome.scripting.executeScript({
-									target: {tabId: tab.id},
-									files: ["js/light.js"]
-								});
-							}else{
-								chrome.tabs.sendMessage(tab.id, {action: "masterclick"});
-							}
-						}else{ // all tabs
-							// Night Mode profile
-							// Eye Protection profile
-							chrome.tabs.sendMessage(tab.id, {action: "masterclick"});
+				getPopupOpenLength().then((thatpanellength) => {
+					if(thatpanellength != 0){
+						// console.log("Doubleclick");
+						// console.log("yes popup open")
+						clickbutton = 0;
+						clearTimeout(timer);
+					}else{
+						// console.log("no popup open")
+						if(clickbutton == 1){
+							chrome.storage.sync.get(["alllightsoff", "mousespotlights"], function(chromeset){
+								if((chromeset["mousespotlights"] != true)){ // regular lamp
+									if((chromeset["alllightsoff"] != true)){
+										chrome.scripting.executeScript({
+											target: {tabId: tab.id},
+											files: ["js/light.js"]
+										});
+									}else{
+										chrome.tabs.sendMessage(tab.id, {action: "masterclick"});
+									}
+								}else{ // all tabs
+									// Night Mode profile
+									// Eye Protection profile
+									chrome.tabs.sendMessage(tab.id, {action: "masterclick"});
+								}
+							});
 						}
-					});
-				}
-				clickbutton = 0;
-				// Clear all timers
-				clearTimeout(timer);
+						clickbutton = 0;
+						// Clear all timers
+						clearTimeout(timer);
+					}
+				});
 				chrome.action.setPopup({tabId: tab.id, popup:""});
 			}, 250);
+			chrome.action.setPopup({tabId: tab.id, popup:"palette.html"});
 		}
 	}else{
 		chrome.action.setPopup({tabId: tab.id, popup:"popup.html"});
@@ -451,6 +459,12 @@ if(chrome.contextMenus){
 		chrome.contextMenus.onClicked.addListener(onClickHandler);
 	}
 }
+
+var contextmenus;
+chrome.storage.sync.get(["contextmenus"], function(items){
+	contextmenus = items.contextmenus; if(contextmenus == null)contextmenus = true;
+	if(items["contextmenus"]){ checkcontextmenus(); }
+});
 
 // context menu for page and video
 var menuitems = null;

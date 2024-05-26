@@ -3,7 +3,7 @@
 
 Turn Off the Lights
 The entire page will be fading to dark, so you can watch the video as if you were in the cinema.
-Copyright (C) 2023 Stefan vd
+Copyright (C) 2024 Stefan vd
 www.stefanvd.net
 www.turnoffthelights.com
 
@@ -160,10 +160,6 @@ chrome.storage.sync.get(["autodim", "eastereggs", "shortcutlight", "eyen", "eyea
 		if(!document.getElementById("totlautodim")){
 			var script = document.createElement("script"); script.id = "totlautodim"; script.type = "text/javascript"; script.src = chrome.runtime.getURL("js/video-player-status.js"); document.getElementsByTagName("head")[0].appendChild(script);
 		}
-	}
-
-	if(autodim == true){
-		addautodimfile();
 	}
 
 	var MutationObserver = window.MutationObserver || window.WebKitMutationObserver || window.MozMutationObserver;
@@ -339,126 +335,65 @@ chrome.storage.sync.get(["autodim", "eastereggs", "shortcutlight", "eyen", "eyea
 		}
 	}, false);
 
-	var startautodim;
-	function autodimfunction(){
-		var gracePeriod = 250, lastEvent = null, timeout = null;
 
-		function trigger(data){
-			if(gracePeriod > 0 && (lastEvent === null || String(lastEvent).split(":")[0] === String(data).split(":")[0])){
-				window.clearTimeout(timeout);
-				timeout = window.setTimeout(function(){ dispatch(data); }, gracePeriod);
-			}else{
-				dispatch(data);
-			}
-		}
+	var gracePeriod = 250, lastEvent = null, timeout = null;
 
-		function dispatch(data){
-			if(data !== lastEvent){
-				lastEvent = data;
-				data = String(data).split(":");
-				switch(data[0]){
-				case"playerStateChange":
-					// console.log("received playerStateChange", data[1]);
-					if(data[1] === "2" || data[1] === "0" || data[1] === "-1" || data[1] === "5"){
-						if((data[1] === "2" && apause == true) || (data[1] === "0" && astop == true)){ shadesOff(this.player); }
-						if(data[1] === "0"){
-							try{
-								// playerReset(this.player);
-								// playerStop(this.player);
-								playerPause(this.player);
-							}catch(e){ console.error(e); }
-						}
-					}else{
-						// play action is active
-						if(aplay == true){ shadesOn(this.player); }
-					}
-					break;
-				default:
-					// console.log("unknown event", data);
-					break;
-				}
-			}
+	function trigger(data){
+		if(gracePeriod > 0 && (lastEvent === null || String(lastEvent).split(":")[0] === String(data).split(":")[0])){
+			window.clearTimeout(timeout);
+			timeout = window.setTimeout(function(){ dispatch(data); }, gracePeriod);
+		}else{
+			dispatch(data);
 		}
+	}
 
-		function playerPause(player){
-			if(player !== null){
-				if(typeof(player.pauseVideo) === "function"){
-					player.pauseVideo();
-				}else if(typeof(player.pause) === "function"){
-					player.pause();
-				}
-			}
-		}
-		function playerReady(player){
-			this.player = player;
-			// this.playerPause(player);
-			// this.playerReset(player);
-		}
-		/* function playerReset(player){
-			if(player !== null){
-				if(typeof(player.seekTo) === "function"){
-					player.seekTo(0, false);
-				}else if(typeof(player.currentTime) !== "undefined"){
-					player.currentTime = 0;
-				}
-			}
-		}
-		function playerStop(player){
-			if(player !== null){
-				if(typeof(player.stopVideo) === "function"){
-					player.stopVideo();
-				}else if(typeof(player.pause) === "function"){
-					player.pause();
-				}
-			}
-		}*/
-		var godelay;
-		function shadesOff(player){
-			if(player !== null){
-				var blackon = $("stefanvdlightareoff1");
-				if(autodimdelay == true){
-					var delaytime = autodimdelaytime * 1000;
-					godelay = window.setTimeout(function(){
-						if(blackon){ chrome.runtime.sendMessage({name: "automatic"}); }
-						window.clearTimeout(godelay);
-					}, delaytime);
+	function dispatch(data){
+		if(data !== lastEvent){
+			lastEvent = data;
+			data = String(data).split(":");
+			switch(data[0]){
+			case"playerStateChange":
+				// console.log("received playerStateChange", data[1]);
+				if(data[1] === "2" || data[1] === "0" || data[1] === "-1" || data[1] === "5"){
+					if((data[1] === "2" && apause == true) || (data[1] === "0" && astop == true)){ shadesOff(this.player); }
 				}else{
+					// play action is active
+					if(aplay == true){ shadesOn(this.player); }
+				}
+				break;
+			default:
+				// console.log("unknown event", data);
+				break;
+			}
+		}
+	}
+
+	var godelay;
+	function shadesOff(player){
+		if(player !== null){
+			var blackon = $("stefanvdlightareoff1");
+			if(autodimdelay == true){
+				var delaytime = autodimdelaytime * 1000;
+				godelay = window.setTimeout(function(){
 					if(blackon){ chrome.runtime.sendMessage({name: "automatic"}); }
-				}
+					window.clearTimeout(godelay);
+				}, delaytime);
+			}else{
+				if(blackon){ chrome.runtime.sendMessage({name: "automatic"}); }
 			}
 		}
-		function shadesOn(player){
-			if(player !== null){
-				var blackon = $("stefanvdlightareoff1");
-				if(blackon == null){ chrome.runtime.sendMessage({name: "automatic"}); }
-				if(autodimdelay == true){
-					try{ window.clearTimeout(godelay); }catch(e){ console.error(e); }
-				}
+	}
+	function shadesOn(player){
+		if(player !== null){
+			var blackon = $("stefanvdlightareoff1");
+			if(blackon == null){ chrome.runtime.sendMessage({name: "automatic"}); }
+			if(autodimdelay == true){
+				try{ window.clearTimeout(godelay); }catch(e){ console.error(e); }
 			}
 		}
+	}
 
-		// player ready check
-		startautodim = window.setInterval(function(){
-			try{
-				var youtubeplayer = $("movie_player") || null;
-				var htmlplayer = document.getElementsByTagName("video") || null;
-
-				// check first for the HTML5 player
-				// if nothing then try the flash for YouTube
-				if(htmlplayer !== null){ // html5 video elements
-					var j;
-					var l = htmlplayer.length;
-					for(j = 0; j < l; j++){
-						if(htmlplayer[j].pause){ playerReady(htmlplayer[j]); }
-					}
-				}else{
-					if(youtubeplayer !== null){ // youtube video element
-						if(youtubeplayer.pauseVideo){ playerReady(youtubeplayer); }
-					}
-				}
-			}catch(e){ console.log(e); } // I see nothing, that is good
-		}, 1000); // 1000 refreshing it
-
+	function autodimfunction(){
 		var cinemahandler;
 		var messagediv = $("stefanvdcinemamessage");
 		if(messagediv == null){
@@ -541,6 +476,10 @@ chrome.storage.sync.get(["autodim", "eastereggs", "shortcutlight", "eyen", "eyea
 		} // option autodim on end
 	}
 	runautodimcheck();
+
+	if(autodim == true){
+		addautodimfile();
+	}
 
 	// general ID for each HTML5 video player
 	function adddatavideo(){
@@ -1473,7 +1412,7 @@ chrome.storage.sync.get(["autodim", "eastereggs", "shortcutlight", "eyen", "eyea
 									// window action
 									if(window.location.href.match(/((http:\/\/(.*youtube\.com\/.*))|(https:\/\/(.*youtube\.com\/.*)))/i)){
 										// YouTube website
-										var playertheater = document.getElementById("player-theater-container");
+										// var playertheater = document.getElementById("player-theater-container");
 										var playercontrols = document.getElementsByClassName("ytp-chrome-bottom")[0];
 										var playercontainer = document.getElementById("ytd-player");
 
@@ -1489,7 +1428,7 @@ chrome.storage.sync.get(["autodim", "eastereggs", "shortcutlight", "eyen", "eyea
 													original.click();
 												}
 												playercontainer.classList.remove("stefanvdvideowindow");
-												//playertheater.classList.remove("stefanvdvideotheather");
+												// playertheater.classList.remove("stefanvdvideotheather");
 												playercontrols.classList.remove("stefanvdvideocontrols");
 												document.getElementsByTagName("video")[0].classList.remove("stefanvdvideowindow");
 												videowindow = false;
@@ -1501,7 +1440,7 @@ chrome.storage.sync.get(["autodim", "eastereggs", "shortcutlight", "eyen", "eyea
 													checktheatermode = true;
 												}
 												playercontainer.classList.add("stefanvdvideowindow");
-												//playertheater.classList.add("stefanvdvideotheather");
+												// playertheater.classList.add("stefanvdvideotheather");
 												playercontrols.classList.add("stefanvdvideocontrols");
 												document.getElementsByTagName("video")[0].classList.add("stefanvdvideowindow");
 												videowindow = true;
@@ -4011,7 +3950,6 @@ chrome.storage.sync.get(["autodim", "eastereggs", "shortcutlight", "eyen", "eyea
 				autodimdelaytime = items["autodimdelaytime"];
 
 				// remove
-				window.clearInterval(startautodim);
 				if(document.getElementById("totlautodim")){
 					removeElement("totlautodim");
 				}
