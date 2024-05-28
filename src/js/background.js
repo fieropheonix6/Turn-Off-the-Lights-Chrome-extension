@@ -630,7 +630,16 @@ function chromerefreshalltabs(name){
 		for(i = 0; i < l; i++){
 			var protocol = tabs[i].url.split(":")[0];
 			if(protocol == "http" || protocol == "https"){
-				chrome.tabs.sendMessage(tabs[i].id, {action: name});
+				// chrome.tabs.sendMessage(tabs[i].id, {action: name});
+				let rtnPromise = chrome.tabs.sendMessage(tabs[i].id, {action: name});
+				rtnPromise.then(()=> {
+					// Callback Function Processes
+					// console.log(response);
+				}).catch(()=> {
+					// Error Handling Processes
+					// This will hide the message when the browser extension is reloaded and the chrome.runtime.onMessage.addListener is not connected with this browser extension
+					// console.log(error);
+				});
 			}
 		}
 	});

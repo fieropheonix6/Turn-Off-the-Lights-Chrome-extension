@@ -59,12 +59,12 @@ chrome.storage.sync.get(["autodim", "eastereggs", "shortcutlight", "eyen", "eyea
 	begintime = response["begintime"];
 	endtime = response["endtime"];
 	ambilight = response["ambilight"];
-	ambilightrangeblurradius = response["ambilightrangeblurradius"];
-	ambilightrangespreadradius = response["ambilightrangespreadradius"];
-	ambilightfixcolor = response["ambilightfixcolor"];
-	ambilightvarcolor = response["ambilightvarcolor"];
+	ambilightrangeblurradius = response["ambilightrangeblurradius"]; if(ambilightrangeblurradius == null)ambilightrangeblurradius = 70;
+	ambilightrangespreadradius = response["ambilightrangespreadradius"]; if(ambilightrangespreadradius == null)ambilightrangespreadradius = 20;
+	ambilightfixcolor = response["ambilightfixcolor"]; if(ambilightfixcolor == null)ambilightfixcolor = true;
+	ambilightvarcolor = response["ambilightvarcolor"]; if(ambilightvarcolor == null)ambilightvarcolor = false;
 	ambilightcolorhex = response["ambilightcolorhex"]; if(ambilightcolorhex == null)ambilightcolorhex = "#47C2FF";
-	ambilight4color = response["ambilight4color"];
+	ambilight4color = response["ambilight4color"]; if(ambilight4color == null)ambilight4color = false;
 	ambilight1colorhex = response["ambilight1colorhex"]; if(ambilight1colorhex == null)ambilight1colorhex = "#FF0000";
 	ambilight2colorhex = response["ambilight2colorhex"]; if(ambilight2colorhex == null)ambilight2colorhex = "#FFEE00";
 	ambilight3colorhex = response["ambilight3colorhex"]; if(ambilight3colorhex == null)ambilight3colorhex = "#00FF00";
@@ -1532,7 +1532,7 @@ chrome.storage.sync.get(["autodim", "eastereggs", "shortcutlight", "eyen", "eyea
 		function videovisualloop(tovis){
 			if(document.getElementById("stefanvdvisualizationcanvas" + tovis)){
 				var canvas = document.getElementById("stefanvdvisualizationcanvas" + tovis);
-				var ctx = canvas.getContext("2d", {desynchronized: true});
+				var ctx = canvas.getContext("2d", {desynchronized: true, willReadFrequently: false});
 
 				requestvideovisualloop[tovis] = window.requestAnimFrame(function(){ videovisualloop(tovis); });
 				analyser[tovis].fftSize = 2048;
@@ -2275,7 +2275,7 @@ chrome.storage.sync.get(["autodim", "eastereggs", "shortcutlight", "eyen", "eyea
 				}
 
 				var canvas = $("totlCanvas" + k + "");
-				var context = canvas.getContext("2d", {desynchronized: true});
+				var context = canvas.getContext("2d", {desynchronized: true, willReadFrequently: false});
 
 				var colorlamp1X = (sourceWidth * 50) / 100; // up midden
 				var colorlamp1Y = (sourceHeight * 95) / 100;
@@ -2376,7 +2376,7 @@ chrome.storage.sync.get(["autodim", "eastereggs", "shortcutlight", "eyen", "eyea
 					}
 					var canvas = $("totlCanvas" + item + "");
 					if(canvas){
-						var context = canvas.getContext("2d", {desynchronized: true});
+						var context = canvas.getContext("2d", {desynchronized: true, willReadFrequently: false});
 
 						p1 = context.getImageData(0, 0, 1, 1).data;
 						p2 = context.getImageData(1, 0, 1, 1).data;
@@ -3673,7 +3673,7 @@ chrome.storage.sync.get(["autodim", "eastereggs", "shortcutlight", "eyen", "eyea
 		var pipvisualnumber = pipvisualtype;
 		if(document.getElementById("stefanvdpipvisualizationcanvas")){
 			var canvas = document.getElementById("stefanvdpipvisualizationcanvas");
-			var ctx = canvas.getContext("2d", {desynchronized: true});
+			var ctx = canvas.getContext("2d", {desynchronized: true, willReadFrequently: false});
 
 			requestvideopiploop = window.requestAnimFrame(function(){ pipvideovisualloop(); });
 			analyser[0].fftSize = 2048;
@@ -3844,39 +3844,27 @@ chrome.storage.sync.get(["autodim", "eastereggs", "shortcutlight", "eyen", "eyea
 		}else if(request.action == "goenableatmos"){
 			chrome.storage.sync.get(["ambilight", "ambilightfixcolor", "ambilight4color", "ambilightvarcolor", "atmosvivid", "vpause", "atmosfpsauto", "atmosfpsmanual", "drawatmosfps", "ambilightcolorhex", "ambilight1colorhex", "ambilight2colorhex", "ambilight3colorhex", "ambilight4colorhex", "ambilightrangeblurradius", "ambilightrangespreadradius", "atmosontotlmode", "atmosphereonly", "atmosphereDomains"], function(items){
 
-				if(items["ambilightfixcolor"]){
-					ambilightfixcolor = true;
-					ambilight4color = false;
-					ambilightvarcolor = false;
-				}
-				if(items["ambilight4color"]){
-					ambilightfixcolor = false;
-					ambilight4color = true;
-					ambilightvarcolor = false;
-				}
-				if(items["ambilightvarcolor"]){
-					ambilightfixcolor = false;
-					ambilight4color = false;
-					ambilightvarcolor = true;
-				}
+				ambilightfixcolor = items["ambilightfixcolor"]; if(ambilightfixcolor == null)ambilightfixcolor = true; // default true
+				ambilight4color = items["ambilight4color"]; if(ambilight4color == null)ambilight4color = false; // default false
+				ambilightvarcolor = items["ambilightvarcolor"]; if(ambilightvarcolor == null)ambilightvarcolor = false; // default false
+				atmosvivid = items["atmosvivid"]; if(atmosvivid == null)atmosvivid = false; // default false
+
 				vpause = items["vpause"];
-				atmosfpsauto = items["atmosfpsauto"];
-				atmosfpsmanual = items["atmosfpsmanual"];
-				drawatmosfps = items["drawatmosfps"];
-				ambilightcolorhex = items["ambilightcolorhex"];
-				ambilight1colorhex = items["ambilight1colorhex"];
-				ambilight2colorhex = items["ambilight2colorhex"];
-				ambilight3colorhex = items["ambilight3colorhex"];
-				ambilight4colorhex = items["ambilight4colorhex"];
-				ambilightrangeblurradius = items["ambilightrangeblurradius"];
-				ambilightrangespreadradius = items["ambilightrangespreadradius"];
+				atmosfpsauto = items["atmosfpsauto"]; if(atmosfpsauto == null){ atmosfpsauto = false; }
+				atmosfpsmanual = items["atmosfpsmanual"]; if(atmosfpsmanual == null){ atmosfpsmanual = true; }
+				drawatmosfps = items["drawatmosfps"]; if(drawatmosfps == null){ drawatmosfps = 12; }
+				ambilightcolorhex = items["ambilightcolorhex"]; if(ambilightcolorhex == null){ ambilightcolorhex = "#47C2FF"; }
+				ambilight1colorhex = items["ambilight1colorhex"]; if(ambilight1colorhex == null){ ambilight1colorhex = "#FF0000"; }
+				ambilight2colorhex = items["ambilight2colorhex"]; if(ambilight2colorhex == null){ ambilight2colorhex = "#FFEE00"; }
+				ambilight3colorhex = items["ambilight3colorhex"]; if(ambilight3colorhex == null){ ambilight3colorhex = "#00FF00"; }
+				ambilight4colorhex = items["ambilight4colorhex"]; if(ambilight4colorhex == null){ ambilight4colorhex = "#0000FF"; }
+				ambilightrangeblurradius = items["ambilightrangeblurradius"]; if(ambilightrangeblurradius == null){ ambilightrangeblurradius = 70; }
+				ambilightrangespreadradius = items["ambilightrangespreadradius"]; if(ambilightrangespreadradius == null){ ambilightrangespreadradius = 20; }
 				atmosontotlmode = items["atmosontotlmode"];
 				atmosphereonly = items["atmosphereonly"];
 				atmosphereDomains = items["atmosphereDomains"];
 
-				if(items["atmosvivid"]){
-					atmosvivid = true;
-
+				if(atmosvivid){
 					var htmlplayer = document.getElementsByTagName("video");
 					var j;
 					var l = htmlplayer.length;
@@ -3894,7 +3882,6 @@ chrome.storage.sync.get(["autodim", "eastereggs", "shortcutlight", "eyen", "eyea
 						youtubewindow.style["boxShadow"] = "none";
 					}
 				}else{
-					atmosvivid = false;
 					let htmlplayer = document.getElementsByTagName("video");
 					let j;
 					let l = htmlplayer.length;

@@ -68,6 +68,9 @@ To view a copy of this license, visit http://creativecommons.org/licenses/GPL/2.
 --totl-input-number-hover-border:2px solid rgba(255,255,255,1);
 --totl-input-text-disabled-color:rgba(255,255,255,.80);
 --totl-input-text-disabled-border:1px dotted rgba(0,0,0,.12);
+--totl-scrollbar-background-thumb:#9a9a9a;
+--totl-scrollbar-background-thumb-hover:#666666;
+--totl-scrollbar-background-track:#282828;
 }
 .light{
 --totl-primary-background:#fff;
@@ -110,6 +113,9 @@ To view a copy of this license, visit http://creativecommons.org/licenses/GPL/2.
 --totl-input-number-hover-border:2px solid rgba(0,0,0,.87);
 --totl-input-text-disabled-color:rgba(0,0,0,.80);
 --totl-input-text-disabled-border:1px dotted rgba(0,0,0,.12);
+--totl-scrollbar-background-thumb:#888;
+--totl-scrollbar-background-thumb-hover:#555;
+--totl-scrollbar-background-track:#f1f1f1;
 }
 
 html{min-width:300px;min-height:415px;padding:0;margin:0}
@@ -137,8 +143,6 @@ body{background:var(--totl-body-background);color:var(--totl-primary-font-color)
 .opacity{position:relative}
 .sliderlabel{position:absolute;font-size:10px;color:rgb(193,193,193);top:5px;left:7px;-webkit-user-select:none;user-select:none;cursor:default;pointer-events:none}
 .number{position:absolute;top:5px;left:235px}
-input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;appearance:none;margin:0}
-input[type=number]:hover::-webkit-inner-spin-button, input[type=number]:hover::-webkit-outer-spin-button{-webkit-appearance:inner-spin-button;appearance:inner-spin-button;margin:0}
 input[type=range]{border-radius:50px;background-color:var(--totl-range-background);-webkit-appearance:none;-moz-appearance:none;appearance:none;outline:none;border:1px solid rgba(0,0,0,.2);color:#555;font-size:inherit;overflow:hidden;padding:0;text-overflow:ellipsis;white-space:nowrap;height:20px;width:220px;margin:0}
 input[type=range]::-moz-range-track{background-color:rgba(255,255,255,0)}
 input[type=range]:focus{outline:none}
@@ -340,6 +344,11 @@ input:checked + .slider::before{-webkit-transform:translateX(22px);-ms-transform
 .democolor{display:block;float:right;margin-right:8px;margin-top:3px}
 .linedash{position:absolute;top:92px;width:100px;margin-left:10px}
 .dash{height:2px;width:20px;background:var(--totl-primary-font-color);margin:5px;display:inline-block;opacity:.6}
+/* Scrollbar */
+::-webkit-scrollbar{width:8px;height:2px}
+::-webkit-scrollbar-track{background:var(--totl-scrollbar-background-track)}
+::-webkit-scrollbar-thumb{background:var(--totl-scrollbar-background-thumb)}
+::-webkit-scrollbar-thumb:hover{background:var(--totl-scrollbar-background-thumb-hover)}
 @media screen and (min-width: 301px){
     body{width:100%}
     .nightheader video{position:absolute;top:-80px;left:0;width:100%;height:auto}

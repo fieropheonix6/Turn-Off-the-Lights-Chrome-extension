@@ -1494,7 +1494,6 @@ const afterBodyReady = () => {
 				newnightspanblock.appendChild(newnightspanblockspan);
 
 				$("stefanvdnighttheme").addEventListener("change", function(){ gogonightmode(); }, false);
-
 				// automatically hide the switch
 				if(nightmodeswitchhide == true){
 					document.addEventListener("pointermove", mousemoveswitchhide);
@@ -1874,10 +1873,10 @@ const afterBodyReady = () => {
 					nmendtime = items["nmendtime"];
 					nightenabletheme = items["nightenabletheme"];
 					nighthover = items["nighthover"];
-					nmtopleft = items["nmtopleft"];
-					nmtopright = items["nmtopright"];
-					nmbottomright = items["nmbottomright"];
-					nmbottomleft = items["nmbottomleft"];
+					nmtopleft = items["nmtopleft"]; if(nmtopleft == null)nmtopleft = false;
+					nmtopright = items["nmtopright"]; if(nmtopright == null)nmtopright = false;
+					nmbottomright = items["nmbottomright"]; if(nmbottomright == null)nmbottomright = false;
+					nmbottomleft = items["nmbottomleft"]; if(nmbottomleft == null)nmbottomleft = true;
 					nmcustom = items["nmcustom"];
 					nightmodegesture = items["nightmodegesture"];
 					nightmodeos = items["nightmodeos"];
