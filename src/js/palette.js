@@ -148,7 +148,7 @@ document.addEventListener("DOMContentLoaded", function(){
 		document.getElementById("nmimagegray").value = nmimagegray;
 
 		// dark mode
-		var thattheme;
+		var thattheme = "light";
 		switch(darkmode){
 		case 1:
 			thattheme = "dark";
