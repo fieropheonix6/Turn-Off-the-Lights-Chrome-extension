@@ -1,6 +1,6 @@
 # Turn Off the Lights Browser Extension
 
-<img alt="Turn Off the Lights Browser Extension Logo" src="https://github.com/turnoffthelights/Turn-Off-the-Lights-Chrome-extension/blob/master/src/icons/icon48.png" align="left" style="padding: 0 10px 5px 0">
+<img alt="Turn Off the Lights Browser Extension Logo" src="https://raw.githubusercontent.com/turnoffthelights/Turn-Off-the-Lights-Chrome-extension/manifest-v2/src/icons/icon48.png" align="left" style="padding: 0 10px 5px 0">
 
 **Turn Off the Lights** is a popular browser extension that works on all major web browsers such as Google Chrome, Firefox, Opera, Safari, Yandex, Maxthon, Brave, Vivaldi, Cốc Cốc, Samsung Internet, Naver Whale, and Microsoft Edge.
 
@@ -69,7 +69,7 @@ Using Turn Off the Lights to dims the web page and reduces the eye strain caused
 
 #### Store hyperlinks:
 The Browser extension is available in the following stores:
-* [Google Chrome in the Chrome web store](https://chrome.google.com/webstore/detail/turn-off-the-lights/bfbmjmiodbnnpllbbbfblcplfjjepjdn)
+* [Google Chrome in the Chrome web store](https://chromewebstore.google.com/detail/turn-off-the-lights/bfbmjmiodbnnpllbbbfblcplfjjepjdn)
 * [Opera in the Opera Extension gallery](https://addons.opera.com/extensions/details/turn-off-the-lights/)
 * [Firefox in the Firefox Extension gallery](https://addons.mozilla.org/firefox/addon/turn-off-the-lights/)
 * [Safari in the Safari Extension gallery](https://itunes.apple.com/us/app/turn-off-the-lights-for-safari/id1273998507?ls=1&mt=12&at=1010lwtb)
