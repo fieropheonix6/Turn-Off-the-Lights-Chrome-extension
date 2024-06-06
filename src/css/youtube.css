@@ -53,3 +53,5 @@ app-drawer[persistent].ytd-app{z-index:auto!important}
 ytd-mini-guide-renderer{z-index:900!important}
 ytd-channel-name{z-index:900!important}
 ytd-video-preview[active]{z-index:2000!important}
+ytd-channel-video-player-renderer[rounded] #player.ytd-channel-video-player-renderer{isolation:auto!important}
+.ytp-preview-ad,.ytp-skip-ad-button,.ytp-ad-player-overlay-layout__ad-info-container,.ytp-ad-player-overlay-layout__player-card-container{z-index:1001!important}
