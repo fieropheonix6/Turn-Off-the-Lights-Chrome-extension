@@ -252,8 +252,8 @@ section>div:only-of-type{-webkit-box-flex:1}
 #stefanvdplayground{margin-top:20px}
 #stefanvdplayground canvas{box-shadow:0 1px 3px rgba(0,0,0,0.12),0 1px 2px rgba(0,0,0,0.24);width:100%}
 #stefanvdbtnplaygroundfacebook{background:url(/images/facebook@2x.png)left top no-repeat;background:-webkit-image-set(url(/images/facebook.png) 1x,url(/images/facebook@2x.png) 2x);width:18px;height:18px;display:inline-block;background-size:cover;margin-left:10px;margin-right:10px;cursor:pointer}
-#stefanvdbtnplaygroundtwitter{background:url(/images/twitter@2x.png)left top no-repeat;background:-webkit-image-set(url(/images/twitter.png) 1x,url(/images/twitter@2x.png) 2x);width:18px;height:18px;display:inline-block;background-size:cover;cursor:pointer}
-#stefanvdbtnplaygroundfacebook:hover,#stefanvdbtnplaygroundtwitter:hover{opacity:.8;cursor:pointer}
+#stefanvdbtnplaygroundx{background:url(/images/x@2x.png)left top no-repeat;background:-webkit-image-set(url(/images/x.png) 1x,url(/images/x@2x.png) 2x);width:18px;height:18px;display:inline-block;background-size:cover;cursor:pointer}
+#stefanvdbtnplaygroundfacebook:hover,#stefanvdbtnplaygroundx:hover{opacity:.8;cursor:pointer}
 /* Video frame */
 .youtubepreview{width:100%;height:400px;background:white;color:black;-webkit-user-select:none;-moz-user-select:none;user-select:none;border-radius:2px;border:var(--totl-section-border);border-spacing:0}
 .youtubeviewpanel{width:475px;padding-left:15px;padding-right:15px;padding-top:15px;vertical-align:top}
@@ -829,8 +829,8 @@ section>div:only-of-type{-webkit-box-flex:1}
 /* share box */
 #shareboxyoutube{background:url(/images/youtube@2x.png)left top no-repeat;background:-webkit-image-set(url(/images/youtube.webp) 1x,url(/images/youtube@2x.webp) 2x,url(/images/youtube.png) 1x, url(/images/youtube@2x.png) 2x);width:25px;height:18px;display:inline-block;background-size:cover;margin-left:10px;margin-right:10px;cursor:pointer}
 #shareboxfacebook{background:url(/images/facebook@2x.png)left top no-repeat;background:-webkit-image-set(url(/images/facebook.webp) 1x,url(/images/facebook@2x.webp) 2x,url(/images/facebook.png) 1x,url(/images/facebook@2x.png) 2x);width:18px;height:18px;display:inline-block;background-size:cover;margin-right:10px;cursor:pointer}
-#shareboxtwitter{background:url(/images/twitter@2x.png)left top no-repeat;background:-webkit-image-set(url(/images/twitter.webp) 1x,url(/images/twitter@2x.webp) 2x,url(/images/twitter.png) 1x,url(/images/twitter@2x.png) 2x);width:18px;height:18px;display:inline-block;background-size:cover;cursor:pointer}
-#shareboxrate:hover,#shareboxyoutube:hover,#shareboxfacebook:hover,#shareboxtwitter:hover{opacity:.8;cursor:pointer}
+#shareboxx{background:url(/images/x@2x.png)left top no-repeat;background:-webkit-image-set(url(/images/x.webp) 1x,url(/images/x@2x.webp) 2x,url(/images/x.png) 1x,url(/images/x@2x.png) 2x);width:18px;height:18px;display:inline-block;background-size:cover;cursor:pointer}
+#shareboxrate:hover,#shareboxyoutube:hover,#shareboxfacebook:hover,#shareboxx:hover{opacity:.8;cursor:pointer}
 /* Review box */
 #reviewextensionbox{height:75px;position:relative;-webkit-user-select:none;-moz-user-select:none;user-select:none;content-visibility:auto}
 .stars{position:absolute;color:#ffce32;font-size:38px;top:0;left:30px}

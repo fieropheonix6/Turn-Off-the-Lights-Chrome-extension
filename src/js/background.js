@@ -362,7 +362,7 @@ function onClickHandler(info, tab){
 		break;
 	case(str.includes("totlshareemail")): var sturnoffthelightemail = "mailto:your@email.com?subject=" + chrome.i18n.getMessage("sharetexta") + "&body=" + chrome.i18n.getMessage("sharetextb") + " " + linkproduct; chrome.tabs.create({url: sturnoffthelightemail, active:true});
 		break;
-	case(str.includes("totlsharetwitter")): var slinkproductcodeurl = encodeURIComponent(chrome.i18n.getMessage("sharetextd") + " " + linkproduct); chrome.tabs.create({url: "https://twitter.com/intent/tweet?text=" + slinkproductcodeurl, active:true});
+	case(str.includes("totlsharex")): var slinkproductcodeurl = encodeURIComponent(chrome.i18n.getMessage("sharetextd") + " " + linkproduct); chrome.tabs.create({url: "https://x.com/intent/tweet?text=" + slinkproductcodeurl, active:true});
 		break;
 	case(str.includes("totlsharefacebook")): chrome.tabs.create({url: "https://www.facebook.com/sharer/sharer.php?u=" + linkproduct, active:true});
 		break;
@@ -389,9 +389,9 @@ if(chrome.contextMenus){
 var sharemenusharetitle = chrome.i18n.getMessage("sharemenusharetitle");
 var sharemenuwelcomeguidetitle = chrome.i18n.getMessage("sharemenuwelcomeguidetitle");
 var sharemenutellafriend = chrome.i18n.getMessage("sharemenutellafriend");
-var sharemenusendatweet = chrome.i18n.getMessage("sharemenusendatweet");
+var sharemenusendapost = chrome.i18n.getMessage("sharemenusendapost");
 var sharemenupostonfacebook = chrome.i18n.getMessage("sharemenupostonfacebook");
-var sharemenuratetitle = chrome.i18n.getMessage("sharemenuratetitle");
+// var sharemenuratetitle = chrome.i18n.getMessage("sharemenuratetitle");
 var sharemenudonatetitle = chrome.i18n.getMessage("sharemenudonatetitle");
 var sharemenusubscribetitle = chrome.i18n.getMessage("desremyoutube");
 var sharemenupostonweibo = chrome.i18n.getMessage("sharemenupostonweibo");
@@ -445,12 +445,12 @@ if(chrome.contextMenus){
 			browsercontext(sharemenupostonvkontakte, "totlsharevkontakte", {"16": "images/IconVkontakte.png", "32": "images/IconVkontakte@2x.png"}, parent);
 			browsercontext(sharemenupostonfacebook, "totlsharefacebook", {"16": "images/IconFacebook.png", "32": "images/IconFacebook@2x.png"}, parent);
 			browsercontext(sharemenupostonwhatsapp, "totlsharewhatsapp", {"16": "images/IconWhatsApp.png", "32": "images/IconWhatsApp@2x.png"}, parent);
-			browsercontext(sharemenusendatweet, "totlsharetwitter", {"16": "images/IconTwitter.png", "32": "images/IconTwitter@2x.png"}, parent);
+			browsercontext(sharemenusendapost, "totlsharex", {"16": "images/IconX.png", "32": "images/IconX@2x.png"}, parent);
 		}else{
 			// all users
 			browsercontext(sharemenupostonfacebook, "totlsharefacebook", {"16": "images/IconFacebook.png", "32": "images/IconFacebook@2x.png"}, parent);
 			browsercontext(sharemenupostonwhatsapp, "totlsharewhatsapp", {"16": "images/IconWhatsApp.png", "32": "images/IconWhatsApp@2x.png"}, parent);
-			browsercontext(sharemenusendatweet, "totlsharetwitter", {"16": "images/IconTwitter.png", "32": "images/IconTwitter@2x.png"}, parent);
+			browsercontext(sharemenusendapost, "totlsharex", {"16": "images/IconX.png", "32": "images/IconX@2x.png"}, parent);
 		}
 
 		chrome.contextMenus.create({"title": "", "type":"separator", "id": "totlsepartor", "contexts": contexts});
