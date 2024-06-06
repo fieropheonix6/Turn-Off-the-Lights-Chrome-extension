@@ -543,7 +543,7 @@ document.addEventListener("DOMContentLoaded", function(){
 	});
 
 	$("btnfacebook").addEventListener("click", function(){ window.open("https://www.facebook.com/sharer.php?u=" + stefanvdurl + "&t=" + sharetext + "", "Share to Facebook", "width=600,height=460,menubar=no,location=no,status=no"); });
-	$("btntwitter").addEventListener("click", function(){ window.open("https://twitter.com/share?url=" + stefanvdaacodeurl + "&text=" + sharetext + "&via=turnoffthelight", "Share to Twitter", "width=600,height=460,menubar=no,location=no,status=no"); });
+	$("btnx").addEventListener("click", function(){ window.open("https://x.com/share?url=" + stefanvdaacodeurl + "&text=" + sharetext + "&via=turnoffthelight", "Share to X", "width=600,height=460,menubar=no,location=no,status=no"); });
 
 	eventFunc("energybox", "click", openoptionspage);
 

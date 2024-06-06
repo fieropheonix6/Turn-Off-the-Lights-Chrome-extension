@@ -109,9 +109,9 @@ var ct7favoritedayweek;
 
 document.addEventListener("DOMContentLoaded", domcontentloaded);
 
-function shareanalytictwitter(message){
+function shareanalyticx(message){
 	var stefanvdaacodeurl = encodeURIComponent(linkdeveloperwebsite);
-	window.open("https://twitter.com/share?url=" + stefanvdaacodeurl + "&text=" + message + "&via=turnoffthelight", "Share to Twitter", "width=600,height=460,menubar=no,location=no,status=no");
+	window.open("https://x.com/share?url=" + stefanvdaacodeurl + "&text=" + message + "&via=turnoffthelight", "Share to X", "width=600,height=460,menubar=no,location=no,status=no");
 }
 
 function settext(id, message){
@@ -126,11 +126,11 @@ function domcontentloaded(){
 	}, false);
 
 	document.getElementById("sharestatsenergysaved").addEventListener("click", function(){
-		shareanalytictwitter(shareenergytext);
+		shareanalyticx(shareenergytext);
 	}, false);
 
 	document.getElementById("sharestatslove").addEventListener("click", function(){
-		shareanalytictwitter(sharelovetext);
+		shareanalyticx(sharelovetext);
 	}, false);
 
 	// Collect data
